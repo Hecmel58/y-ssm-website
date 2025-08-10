@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Y-SSM - Uyku ve Stres Yönetim Sistemi</title>
+  <link rel="icon" href="assets/images/favicon.ico">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/responsive.css">
+  <link rel="icon" href="assets/images/favicon.ico">
+</head>
+<body data-theme="dark">
+  <div id="app">
+    <!-- Theme toggle -->
+    <button class="theme-toggle" id="themeToggle" aria-label="Tema değiştir">☾</button>
+
+    <!-- Hero -->
+    <section id="hero" class="hero">
+      <div class="hero-background"><canvas id="hero-canvas"></canvas></div>
+      <div class="floating-particles" id="particles"></div>
+      <div class="container">
+        <div class="hero-content">
+          <h1 id="brand">Y-SSM</h1>
+          <p>Uyku ve Stres Yönetim Sistemi — Modern teknoloji ile sağlıklı yaşam</p>
+          <div class="cta-buttons">
+            <button class="btn btn-primary" id="openLogin"><i class="fa fa-sign-in-alt"></i> Giriş Yap</button>
+            <button class="btn btn-secondary" id="openRegister"><i class="fa fa-user-plus"></i> Kayıt Ol</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features (placeholder) -->
+    <section class="features container">
+      <h2 class="section-title">Özellikler</h2>
+      <div class="features-grid" id="featuresGrid"></div>
+    </section>
+
+    <!-- Stats -->
+    <section class="container stats-wrapper">
+      <div class="stats" id="stats">
+        <div class="stat-item"><div class="stat-number" data-target="1000">0</div><p>Aktif Kullanıcı</p></div>
+        <div class="stat-item"><div class="stat-number" data-target="95">0</div><p>Memnuniyet %</p></div>
+        <div class="stat-item"><div class="stat-number" data-target="24">0</div><p>7/24 Destek</p></div>
+        <div class="stat-item"><div class="stat-number" data-target="50">0</div><p>Uzman Hekim</p></div>
+      </div>
+    </section>
+
+    <!-- Dashboard & Admin placeholders (gizli) -->
+    <main id="dashboard" class="dashboard container" hidden></main>
+    <main id="adminPanel" class="admin-panel container" hidden></main>
+
+    <!-- Components (statik olarak dahil edildi) -->
+    <div id="components" aria-hidden="true">
+      <!-- modals & navigation will be injected by app.js from components/modals.html & navigation.html strings -->
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification" role="status" aria-live="polite"><span id="notificationText"></span></div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+
+    <script type="module" src="assets/js/app.js"></script>
+  </div>
+  <script type="module" src="assets/js/ui.js"></script>
+</body>
+</html>

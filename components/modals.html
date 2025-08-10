@@ -1,0 +1,216 @@
+<!-- Login Modal -->
+    <div role="dialog" aria-modal="true">
+        <div class="modal-content">
+            <span class="close" data-data-onclick="hideModal('loginModal')">&times;</span>
+            <h2 >Giriş Yap</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginPhone">Telefon Numarası</label>
+                    <input type="tel" id="loginPhone" required placeholder="0555 123 4567">
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Şifre</label>
+                    <input type="password" id="loginPassword" required placeholder="Şifrenizi girin">
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary" >
+                        <i class="fas fa-sign-in-alt"></i> Giriş Yap
+                    </button>
+                </div>
+                <div class="form-group" >
+                    <a href="#" data-data-onclick="showModal('adminLoginModal'); hideModal('loginModal');" >
+                        Yönetici Girişi
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Register Modal -->
+    <div role="dialog" aria-modal="true">
+        <div class="modal-content">
+            <span class="close" data-data-onclick="hideModal('registerModal')">&times;</span>
+            <h2 >Kayıt Ol</h2>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="registerName">Ad Soyad</label>
+                    <input type="text" id="registerName" required placeholder="Adınız ve soyadınız">
+                </div>
+                <div class="form-group">
+                    <label for="registerPhone">Telefon Numarası</label>
+                    <input type="tel" id="registerPhone" required placeholder="0555 123 4567">
+                </div>
+                <div class="form-group">
+                    <label for="registerEmail">E-posta</label>
+                    <input type="email" id="registerEmail" required placeholder="email@ornegi.com">
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword">Şifre</label>
+                    <input type="password" id="registerPassword" required placeholder="Güçlü bir şifre seçin">
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary" >
+                        <i class="fas fa-user-plus"></i> Kayıt Ol
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Admin Login Modal -->
+    <div role="dialog" aria-modal="true">
+        <div class="modal-content">
+            <span class="close" data-data-onclick="hideModal('adminLoginModal')">&times;</span>
+            <h2 >Yönetici Girişi</h2>
+            <form id="adminLoginForm">
+                <div class="form-group">
+                    <label for="adminUsername">Kullanıcı Adı</label>
+                    <input type="text" id="adminUsername" required placeholder="Yönetici kullanıcı adı">
+                </div>
+                <div class="form-group">
+                    <label for="adminPassword">Şifre</label>
+                    <input type="password" id="adminPassword" required placeholder="Yönetici şifresi">
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary" >
+                        <i class="fas fa-shield-alt"></i> Yönetici Girişi
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Sleep Record Modal -->
+    <div role="dialog" aria-modal="true">
+        <div class="modal-content">
+            <span class="close" data-data-onclick="hideModal('sleepRecordModal')">&times;</span>
+            <h2 >Uyku Kaydı</h2>
+            <form id="sleepRecordForm">
+                <div class="form-group">
+                    <label for="sleepDate">Tarih</label>
+                    <input type="date" id="sleepDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="totalSleep">Toplam Uyku Süresi (saat)</label>
+                    <input type="number" id="totalSleep" step="0.1" min="0" max="24" required>
+                </div>
+                <div class="form-group">
+                    <label for="deepSleep">Derin Uyku (saat)</label>
+                    <input type="number" id="deepSleep" step="0.1" min="0" required>
+                </div>
+                <div class="form-group">
+                    <label for="lightSleep">Hafif Uyku (saat)</label>
+                    <input type="number" id="lightSleep" step="0.1" min="0" required>
+                </div>
+                <div class="form-group">
+                    <label for="remSleep">REM Uyku (saat)</label>
+                    <input type="number" id="remSleep" step="0.1" min="0" required>
+                </div>
+                <div class="form-group">
+                    <label for="avgHeartRate">Ortalama Kalp Atışı</label>
+                    <input type="number" id="avgHeartRate" min="40" max="200" required>
+                </div>
+                <div class="form-group">
+                    <label for="stressLevel">Günlük Stres Seviyesi (1-10)</label>
+                    <select id="stressLevel" required>
+                        <option value="">Seçiniz</option>
+                        <option value="1">1 - Çok düşük</option>
+                        <option value="2">2 - Düşük</option>
+                        <option value="3">3 - Hafif düşük</option>
+                        <option value="4">4 - Normal altı</option>
+                        <option value="5">5 - Normal</option>
+                        <option value="6">6 - Normal üstü</option>
+                        <option value="7">7 - Yüksek</option>
+                        <option value="8">8 - Çok yüksek</option>
+                        <option value="9">9 - Aşırı yüksek</option>
+                        <option value="10">10 - Kritik</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="binauralBefore">Binaural Vuruş Öncesi Kalp Atışı</label>
+                    <input type="number" id="binauralBefore" min="40" max="200">
+                </div>
+                <div class="form-group">
+                    <label for="binauralAfter">Binaural Vuruş Sonrası Kalp Atışı</label>
+                    <input type="number" id="binauralAfter" min="40" max="200">
+                </div>
+                <div class="form-group">
+                    <label for="relaxationBefore">Gevşeme Öncesi Kalp Atışı</label>
+                    <input type="number" id="relaxationBefore" min="40" max="200">
+                </div>
+                <div class="form-group">
+                    <label for="relaxationAfter">Gevşeme Sonrası Kalp Atışı</label>
+                    <input type="number" id="relaxationAfter" min="40" max="200">
+                </div>
+                <div class="form-group">
+                    <label for="sleepNotes">Uyku ile İlgili Notlar</label>
+                    <textarea id="sleepNotes" rows="3" placeholder="Uyku kalitesi, rüyalar, uyanma durumu vb."></textarea>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary" >
+                        <i class="fas fa-save"></i> Kaydet
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Expert Chat Modal -->
+    <div role="dialog" aria-modal="true">
+        <div class="modal-content" >
+            <span class="close" data-data-onclick="hideModal('expertChatModal')">&times;</span>
+            <div >
+                <div class="avatar" >FB</div>
+                <div>
+                    <h3>Dr. Fidan Balkaya</h3>
+                    <p >Uyku ve Stres Uzmanı</p>
+                    <div >
+                        <div ></div>
+                        <span >Çevrimiçi</span>
+                    </div>
+                </div>
+            </div>
+            <div id="chatMessages" >
+                <div >
+                    <div class="avatar" >FB</div>
+                    <div >
+                        <p >Merhaba! Size nasıl yardımcı olabilirim?</p>
+                        <small >14:30</small>
+                    </div>
+                </div>
+            </div>
+            <div >
+                <input type="text" id="chatInput" placeholder="Mesajınızı yazın..." >
+                <button data-data-onclick="sendMessage()" class="btn btn-primary" >
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+
+<!-- Audio Player Component -->
+<div id="audioPlayer" class="audio-player" role="region" aria-label="Ses Oynatıcı">
+  <div class="audio-info">
+    <img src="assets/images/icon-sleep.png" alt="" width="48" height="48">
+    <div>
+      <div id="audioTitle">Relaxation Track</div>
+      <div id="audioSub">Y-SSM Ses Kütüphanesi</div>
+    </div>
+  </div>
+  <audio id="audioElement" preload="none" controls>
+    <source src="assets/audio/relaxation-220.wav" type="audio/wav">
+    Tarayıcınız ses elementini desteklemiyor.
+  </audio>
+</div>
+
+
+<!-- Video Player Component -->
+<div id="videoPlayer" class="video-player" role="region" aria-label="Video Oynatıcı">
+  <video id="mainVideo" width="100%" controls poster="assets/images/hero-bg.jpg">
+    <source src="assets/videos/sample.mp4" type="video/mp4">
+    Tarayıcınız video elementini desteklemiyor.
+  </video>
+  <div id="videoFallback" style="display:none;">
+    <canvas id="videoCanvas" width="640" height="360"></canvas>
+    <div class="video-fallback-controls">
+      <button id="vfPlay" class="btn btn-primary">Oynat</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,9 @@
+@media (max-width:768px){
+  .hero h1{font-size:2rem}
+  .cta-buttons{flex-direction:column}
+  .features-grid{grid-template-columns:1fr}
+  body{padding-bottom:80px}
+}
+@media (max-width:480px){
+  .hero-content{padding:20px}
+}
