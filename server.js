@@ -1,12 +1,23 @@
 const express = require('express');
 const cors = require('cors');
+const fs = require('fs');
+const path = require('path');
+const sqlite3 = require('sqlite3').verbose();
+
 const app = express();
 const port = process.env.PORT || 3000;
-// SQLite integration
-const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database('./data/db.sqlite');
 
-// Create tables
+// Ensure data directory exists
+const dataDir = path.join(__dirname, 'data');
+if (!fs.existsSync(dataDir)) {
+  fs.mkdirSync(dataDir);
+}
+
+// SQLite database path
+const dbPath = path.join(dataDir, 'db.sqlite');
+const db = new sqlite3.Database(dbPath);
+
+// Create tables if not exist
 db.serialize(() => {
   db.run(`CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
