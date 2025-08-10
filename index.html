@@ -1,47 +1,65 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Y-SSM Website - Giriş</title>
-    <link rel="stylesheet" href="assets/css/style.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Y-SSM</title>
+<link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-    <div class="login-container">
-        <h1>Hoşgeldiniz</h1>
-        <form id="loginForm">
-            <input type="text" id="loginPhone" placeholder="Telefon" required>
-            <input type="password" id="loginPassword" placeholder="Şifre" required>
-            <button type="submit">Giriş Yap</button>
-        </form>
-
-        <hr>
-
-        <form id="registerForm">
-            <input type="text" id="registerName" placeholder="Ad Soyad" required>
-            <input type="text" id="registerPhone" placeholder="Telefon" required>
-            <input type="password" id="registerPassword" placeholder="Şifre" required>
-            <label class="agreement">
-                <input type="checkbox" id="agreementCheckbox" required>
-                <span>Kullanıcı Sözleşmesini <a href="#" id="openAgreement">okudum ve onaylıyorum</a></span>
-            </label>
-            <button type="submit">Kayıt Ol</button>
-        </form>
-    </div>
-
-    <div id="mainApp" style="display:none;">
-        <div id="navigation"></div>
-        <div id="content"></div>
-    </div>
-
-    <div id="agreementModal" class="modal" style="display:none;">
-        <div class="modal-content">
-            <span id="closeAgreement" style="float:right; cursor:pointer;">&times;</span>
-            <h2>Kullanıcı Sözleşmesi</h2>
-            <p>Bu, kullanıcı sözleşmesi metnidir. Buraya detaylı sözleşme şartlarını yazabilirsiniz.</p>
+<main id="root">
+  <section id="loginWrap" class="login-wrap">
+    <div class="login-card">
+      <h1>Y-SSM</h1>
+      <p>Uyku ve Stres Yönetim Sistemi</p>
+      <form id="loginForm" class="form">
+        <label>Telefon</label>
+        <input id="loginPhone" placeholder="0555..." />
+        <label>Şifre</label>
+        <input id="loginPassword" type="password" />
+        <div class="actions">
+          <button class="btn primary" type="submit">Giriş Yap</button>
+          <button type="button" id="openRegisterBtn" class="btn secondary">Kayıt Ol</button>
         </div>
+        <div style="margin-top:8px;">
+          <button type="button" id="openAdminBtn" class="link-like">Yönetici Girişi</button>
+        </div>
+      </form>
     </div>
+  </section>
 
-    <script src="assets/js/app.js"></script>
+  <div id="registerModal" class="modal" aria-hidden="true">
+    <div class="modal-content">
+      <button class="modal-close" data-close>&times;</button>
+      <h2>Kayıt</h2>
+      <form id="registerForm">
+        <label>Ad</label><input id="registerName" required>
+        <label>Telefon</label><input id="registerPhone" required>
+        <label>Şifre</label><input id="registerPassword" type="password" required>
+        <label><input id="agreementCheckbox" type="checkbox"> Kullanıcı sözleşmesini okudum</label>
+        <div class="actions"><button class="btn primary" type="submit">Kayıt Ol</button><button data-close class="btn secondary" type="button">İptal</button></div>
+      </form>
+    </div>
+  </div>
+
+  <div id="adminModal" class="modal" aria-hidden="true">
+    <div class="modal-content">
+      <button class="modal-close" data-close>&times;</button>
+      <h2>Yönetici Girişi</h2>
+      <form id="adminForm">
+        <label>Kullanıcı Adı</label><input id="adminUsername" required>
+        <label>Şifre</label><input id="adminPwd" type="password" required>
+        <div class="actions"><button class="btn primary" type="submit">Giriş</button><button data-close class="btn secondary" type="button">İptal</button></div>
+      </form>
+    </div>
+  </div>
+
+  <div id="mainApp" class="app-root" hidden>
+    <header id="appHeader" class="app-header"></header>
+    <nav id="appNav" class="app-nav"></nav>
+    <section id="appContent" class="app-content"></section>
+  </div>
+</main>
+<script src="assets/js/app.js"></script>
 </body>
 </html>

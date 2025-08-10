@@ -1,75 +1,97 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const loginForm = document.getElementById('loginForm');
-    const registerForm = document.getElementById('registerForm');
-    const agreementLink = document.getElementById('openAgreement');
-    const agreementModal = document.getElementById('agreementModal');
-    const closeAgreement = document.getElementById('closeAgreement');
-    const mainApp = document.getElementById('mainApp');
-    const loginContainer = document.querySelector('.login-container');
+// client app
+const API = {
+  login: (data)=> fetch('/api/auth/login',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(data)}).then(r=>r.json()),
+  register: (data)=> fetch('/api/auth/register',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(data)}).then(r=>r.json()),
+  getSleep: ()=> fetch('/api/sleep-records').then(r=>r.json())
+};
 
-    agreementLink.addEventListener('click', (e) => {
-        e.preventDefault();
-        agreementModal.style.display = 'block';
-    });
+function $(s){return document.querySelector(s);}
+function $all(s){return Array.from(document.querySelectorAll(s));}
 
-    closeAgreement.addEventListener('click', () => {
-        agreementModal.style.display = 'none';
-    });
+document.addEventListener('DOMContentLoaded', ()=>{
+  const loginForm = $('#loginForm');
+  const registerForm = $('#registerForm');
+  const adminForm = $('#adminForm');
+  $('#openRegisterBtn').addEventListener('click', ()=> openModal('#registerModal'));
+  $('#openAdminBtn').addEventListener('click', ()=> openModal('#adminModal'));
 
-    window.addEventListener('click', (e) => {
-        if (e.target === agreementModal) {
-            agreementModal.style.display = 'none';
-        }
-    });
+  document.body.addEventListener('click',(e)=>{
+    const c = e.target.closest('[data-close]');
+    if(c){ closeModal(c.closest('.modal')); }
+  });
 
-    loginForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const phone = document.getElementById('loginPhone').value;
-        const password = document.getElementById('loginPassword').value;
-        const res = await fetch('/api/auth/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ phone, password })
-        });
-        const data = await res.json();
-        if (data.ok) {
-            loginContainer.style.display = 'none';
-            mainApp.style.display = 'block';
-            loadMainUI();
-        } else {
-            alert(data.message);
-        }
-    });
+  loginForm.addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    const phone = $('#loginPhone').value.trim();
+    const password = $('#loginPassword').value.trim();
+    if(!phone || !password){ alert('Lütfen doldurun'); return; }
+    const res = await API.login({phone,password});
+    if(res.ok){ startApp(res.user); } else alert(res.message || 'Hata');
+  });
 
-    registerForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        if (!document.getElementById('agreementCheckbox').checked) {
-            alert("Kullanıcı sözleşmesini onaylamalısınız.");
-            return;
-        }
-        const name = document.getElementById('registerName').value;
-        const phone = document.getElementById('registerPhone').value;
-        const password = document.getElementById('registerPassword').value;
-        const res = await fetch('/api/auth/register', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name, phone, password })
-        });
-        const data = await res.json();
-        if (data.ok) {
-            alert("Kayıt başarılı. Şimdi giriş yapabilirsiniz.");
-        } else {
-            alert(data.message);
-        }
-    });
+  registerForm.addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    if(!$('#agreementCheckbox').checked){ alert('Sözleşmeyi onaylayın'); return; }
+    const name = $('#registerName').value.trim();
+    const phone = $('#registerPhone').value.trim();
+    const password = $('#registerPassword').value.trim();
+    const res = await API.register({name,phone,password});
+    if(res.ok){ alert('Kayıt başarılı'); closeModal('#registerModal'); } else alert(res.message || 'Hata');
+  });
 
-    async function loadMainUI() {
-        const navRes = await fetch('components/navigation.html');
-        const navHtml = await navRes.text();
-        document.getElementById('navigation').innerHTML = navHtml;
-
-        const modalsRes = await fetch('components/modals.html');
-        const modalsHtml = await modalsRes.text();
-        document.body.insertAdjacentHTML('beforeend', modalsHtml);
-    }
+  adminForm.addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    const username = $('#adminUsername').value.trim();
+    const password = $('#adminPwd').value.trim();
+    if(!username || !password){ alert('Lütfen doldurun'); return; }
+    const res = await API.login({username,password});
+    if(res.ok){ startApp(res.user); } else alert(res.message || 'Admin hatası');
+  });
 });
+
+function openModal(sel){ const el = document.querySelector(sel); if(!el) return; el.style.display='flex'; el.classList.add('open'); el.setAttribute('aria-hidden','false'); }
+function closeModal(el){ if(typeof el==='string') el=document.querySelector(el); if(!el) return; el.style.display='none'; el.classList.remove('open'); el.setAttribute('aria-hidden','true'); }
+
+async function startApp(user){
+  // hide login, show main app
+  $('#loginWrap').style.display='none';
+  $('#mainApp').hidden = false;
+  // load nav and modals from components
+  const nav = await fetch('components/navigation.html').then(r=>r.text());
+  $('#appNav').innerHTML = nav;
+  bindNav();
+  $('#appHeader').innerHTML = '<div class="brand">Y-SSM</div><div class="user">Hoşgeldiniz, '+(user.name||user.username||'Kullanıcı')+' <button id="logoutBtn" class="btn small">Çıkış</button></div>';
+  $('#logoutBtn').addEventListener('click', ()=> { location.reload(); });
+  // load modals
+  const modals = await fetch('components/modals.html').then(r=>r.text());
+  const div = document.createElement('div'); div.innerHTML = modals; document.body.appendChild(div);
+  // create sections
+  createSections(['dashboard','relaxation','binaural','records','support','profile','admin']);
+  showSection('dashboard');
+}
+
+function bindNav(){
+  document.querySelectorAll('[data-section]').forEach(btn=>{
+    btn.addEventListener('click',(e)=>{ e.preventDefault(); const s=btn.getAttribute('data-section'); showSection(s); document.querySelectorAll('[data-section]').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); });
+  });
+}
+
+function createSections(list){
+  const content = $('#appContent');
+  content.innerHTML = '';
+  list.forEach(name=>{
+    const s = document.createElement('section');
+    s.id = 'section-'+name; s.className='app-section'; s.style.display='none';
+    s.innerHTML = '<h2>'+name.toUpperCase()+'</h2><div class="section-body">İçerik yok.</div>';
+    content.appendChild(s);
+  });
+}
+
+function showSection(name){
+  $all('.app-section').forEach(s=>s.style.display='none');
+  const sel = $('#section-'+name);
+  if(!sel) return;
+  sel.style.display='block';
+  // try load page
+  fetch('pages/'+name+'.html').then(r=>{ if(!r.ok) throw new Error('no'); return r.text(); }).then(html=>{ sel.querySelector('.section-body').innerHTML = html; }).catch(()=>{ /* ignore */ });
+}
