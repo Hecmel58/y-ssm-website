@@ -4,7 +4,7 @@ body{font-family:Arial,Helvetica,sans-serif;margin:0;background:linear-gradient(
 .login-wrap{display:flex;align-items:center;justify-content:center;padding:40px}
 .login-card{background:#fff;color:#0f1724;padding:28px;border-radius:12px;max-width:420px;width:100%;box-shadow:0 6px 24px rgba(2,6,23,0.6);text-align:center}
 .form label{display:block;text-align:left;margin:10px 0 6px;color:#334155}
-.form input{width:100%;padding:10px;border-radius:8px;border:1px solid #e2e8f0;margin-bottom:8px}
+.form input, .form select, .form textarea{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.08);margin-bottom:8px;background:rgba(255,255,255,0.03);color:inherit}
 .actions{display:flex;gap:8px;justify-content:center;margin-top:12px}
 .btn{padding:10px 14px;border-radius:8px;border:0;cursor:pointer}
 .btn.primary{background:var(--accent);color:white}
@@ -17,3 +17,7 @@ body{font-family:Arial,Helvetica,sans-serif;margin:0;background:linear-gradient(
 .app-nav{background:transparent;padding:12px 18px}
 .app-content{padding:20px}
 .app-section{background:rgba(255,255,255,0.02);padding:16px;border-radius:10px;color:#e6eef8}
+
+.container{max-width:980px;margin:24px auto;padding:18px}
+.centered{text-align:center}
+.nav-list .nav-item{font-size:1.05rem;padding:8px 12px;border-radius:8px}

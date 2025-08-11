@@ -1,1 +1,17 @@
-<p>Kullanıcı profili.</p>
+<div class="container centered">
+  <h1>Form</h1>
+  <p>Kullanıcı profil formu ve sözleşme onayı.</p>
+  <form style="max-width:720px;margin:0 auto" id="profileForm">
+    <label>İsim</label><input id="name">
+    <label>Telefon</label><input id="phone">
+    <label><input type="checkbox" id="agree"> Kullanıcı sözleşmesini okudum ve kabul ediyorum</label>
+    <div style="text-align:center;margin-top:12px"><button class="btn primary" type="submit">Güncelle</button></div>
+  </form>
+</div>
+<script>
+document.getElementById('profileForm').addEventListener('submit', (e)=>{
+  e.preventDefault();
+  if(!document.getElementById('agree').checked){ alert('Sözleşmeyi kabul etmelisiniz'); return; }
+  alert('Profil güncellendi (demo)');
+});
+</script>

@@ -1,3 +1,4 @@
+window.currentUser = { id:'user1', username:'demo', role:'user' };
 // client app
 const API = {
   login: (data)=> fetch('/api/auth/login',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(data)}).then(r=>r.json()),

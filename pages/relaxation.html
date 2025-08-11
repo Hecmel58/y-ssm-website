@@ -1,1 +1,21 @@
-<p>Gevşeme teknikleri içerik örneği.</p>
+<div class="container centered">
+  <h1>Gevşeme Teknikleri</h1>
+  <p>Gevşeme için kısa bir örnek görsel ve 5 saniyelik demo video.</p>
+  <img src="assets/images/hero-bg.jpg" alt="Gevşeme görsel" style="max-width:480px;border-radius:10px;display:block;margin:10px auto">
+  <div style="max-width:480px;margin:10px auto">
+    <!-- Using an audio-backed 'video' fallback: plays short audio while showing poster for 5s -->
+    <video id="relaxVideo" controls autoplay muted playsinline poster="assets/images/hero-bg.jpg" style="width:100%;border-radius:8px">
+      <!-- no real mp4 available; play silent loop using existing relaxation audio as fallback audio track -->
+      <source src="assets/audio/relaxation-220.wav" type="audio/wav">
+      Tarayıcınız video etiketini desteklemiyor.
+    </video>
+    <small>Demo: 5 saniye gösterim (kontroller ile durdurabilirsiniz).</small>
+  </div>
+</div>
+<script>
+  // auto-stop after 5 seconds to emulate 5s video
+  document.addEventListener('DOMContentLoaded', ()=>{
+    const v = document.getElementById('relaxVideo');
+    if(v){ setTimeout(()=>{ try{ v.pause(); }catch(e){} }, 5000); }
+  });
+</script>

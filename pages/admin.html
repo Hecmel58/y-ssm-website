@@ -1,1 +1,25 @@
-<p>Yönetici paneli (sadece admin erişebilir).</p>
+<div class="container">
+  <h1 class="centered">Yönetici Paneli</h1>
+  <p class="centered">Seçili kullanıcıya ait uyku/fizyolojik kayıtlar listelenecek. Tarih aralığı filtresiyle sorgulayabilirsiniz.</p>
+  <div style="max-width:900px;margin:0 auto">
+    <label>Kullanıcı ID</label><input id="adminUserId">
+    <label>Başlangıç</label><input id="adminStart" type="date">
+    <label>Bitiş</label><input id="adminEnd" type="date">
+    <div style="display:flex;gap:8px;justify-content:center;margin-top:8px">
+      <button class="btn primary" id="adminLoad">Getir</button>
+    </div>
+    <div id="adminResults" style="margin-top:12px"></div>
+  </div>
+</div>
+<script>
+document.getElementById('adminLoad').addEventListener('click', async ()=>{
+  const uid = document.getElementById('adminUserId').value;
+  const s = document.getElementById('adminStart').value;
+  const e = document.getElementById('adminEnd').value;
+  const q = '/api/sleep-records?userId='+encodeURIComponent(uid)+'&start='+s+'&end='+e;
+  const r = await fetch(q); const j = await r.json();
+  if(!j.ok){ alert('Hata'); return; }
+  const out = document.getElementById('adminResults');
+  out.innerHTML = '<pre>'+JSON.stringify(j.records, null, 2)+'</pre>';
+});
+</script>

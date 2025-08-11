@@ -1,1 +1,77 @@
-<p>Uyku kayıtları listesi burada olacak.</p>
+<div class="container">
+  <h1 class="centered">Uyku ve Fizyolojik Kayıt</h1>
+  <p class="centered">Günlük olarak aşağıdaki alanları doldurun. Veriler tarih bazlı kaydedilir.</p>
+  <form id="sleepForm" class="form" style="max-width:720px;margin:0 auto">
+    <label>Tarih</label><input type="date" id="recDate" required value="">
+    <label>Derin uyku süresi (dk)</label><input type="number" id="deep" min="0" required>
+    <label>Hafif uyku süresi (dk)</label><input type="number" id="light" min="0" required>
+    <label>REM süresi (dk)</label><input type="number" id="rem" min="0" required>
+    <label>Uyku esnasındaki ort. kalp atım hızı (bpm)</label><input type="number" id="avgHr" min="0" required>
+    <div style="display:flex;gap:8px;justify-content:center;margin-top:12px">
+      <button class="btn primary" type="submit">Kaydet</button>
+      <button class="btn secondary" type="button" id="loadReports">Raporları Yükle</button>
+    </div>
+  </form>
+
+  <section id="reports" style="max-width:900px;margin:18px auto">
+    <h2 class="centered">Grafikler</h2>
+    <canvas id="sleepChart" width="800" height="300" style="width:100%;max-width:800px"></canvas>
+    <div class="centered" style="margin-top:8px">
+      <button class="btn" id="dailyBtn">Günlük</button>
+      <button class="btn" id="weeklyBtn">Haftalık</button>
+      <button class="btn" id="monthlyBtn">Aylık</button>
+    </div>
+  </section>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', ()=>{
+  // set today's date default
+  const d = new Date(); document.getElementById('recDate').value = d.toISOString().slice(0,10);
+  const form = document.getElementById('sleepForm');
+  form.addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    const payload = {
+      date: document.getElementById('recDate').value,
+      deep: Number(document.getElementById('deep').value),
+      light: Number(document.getElementById('light').value),
+      rem: Number(document.getElementById('rem').value),
+      avgHr: Number(document.getElementById('avgHr').value),
+      userId: window.currentUser?window.currentUser.id:'guest'
+    };
+    const res = await fetch('/api/sleep-records',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+    const j = await res.json();
+    if(j.ok) alert('Kayıt başarıyla kaydedildi'); else alert('Hata: '+j.message);
+  });
+
+  async function loadAndDraw(range){
+    const q = '/api/sleep-records?userId='+(window.currentUser?window.currentUser.id:'guest')+'&range='+range;
+    const r = await fetch(q); const j = await r.json();
+    if(!j.ok){ alert('Veri yüklenemedi'); return; }
+    const recs = j.records || [];
+    // prepare simple chart: x dates, y deep sleep minutes
+    const canvas = document.getElementById('sleepChart'); const ctx = canvas.getContext('2d');
+    // clear
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    // draw simple bar for deep sleep
+    const w = canvas.width, h = canvas.height;
+    const max = Math.max(1, ...recs.map(r=>r.deep||0));
+    const gap = 10; const barW = Math.max(8, (w - (recs.length+1)*gap)/Math.max(1,recs.length));
+    let x = gap;
+    ctx.fillStyle = '#667eea';
+    ctx.font = '12px Arial';
+    recs.forEach(r=>{
+      const bh = ((r.deep||0)/max) * (h-40);
+      ctx.fillRect(x, h-30-bh, barW, bh);
+      ctx.fillStyle='#bcd';
+      ctx.fillText(r.date, x, h-10);
+      ctx.fillStyle='#667eea';
+      x += barW + gap;
+    });
+  }
+
+  document.getElementById('loadReports').addEventListener('click', ()=> loadAndDraw('daily'));
+  document.getElementById('dailyBtn').addEventListener('click', ()=> loadAndDraw('daily'));
+  document.getElementById('weeklyBtn').addEventListener('click', ()=> loadAndDraw('weekly'));
+  document.getElementById('monthlyBtn').addEventListener('click', ()=> loadAndDraw('monthly'));
+});
+</script>

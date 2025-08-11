@@ -1,9 +1,20 @@
 <div class="nav-list" role="menubar">
   <button class="nav-item" data-section="dashboard">Ana Sayfa</button>
-  <button class="nav-item" data-section="relaxation">Gevşeme</button>
-  <button class="nav-item" data-section="binaural">Binaural</button>
-  <button class="nav-item" data-section="records">Kayıtlar</button>
-  <button class="nav-item" data-section="support">Destek</button>
-  <button class="nav-item" data-section="profile">Profil</button>
-  <button class="nav-item" data-section="admin">Yönetici</button>
+  <button class="nav-item" data-section="relaxation">Gevşeme Teknikleri</button>
+  <button class="nav-item" data-section="binaural">Binaural Vuruşlar</button>
+  <button class="nav-item" data-section="records">Uyku ve Fizyolojik Kayıt</button>
+  <button class="nav-item" data-section="support">Destek (Uzman ile Görüşme)</button>
+  <button class="nav-item" data-section="profile">Form</button>
+  <button class="nav-item admin-only" data-section="admin">Yönetici</button>
 </div>
+<script>
+  // hide admin-only by default; client-side will show for admin users
+  document.addEventListener('DOMContentLoaded', ()=> {
+    const adminEls = document.querySelectorAll('.admin-only');
+    adminEls.forEach(e=> e.style.display='none');
+    // if app sets window.currentUser and role is admin, show it
+    if(window.currentUser && window.currentUser.role==='admin'){
+      adminEls.forEach(e=> e.style.display='inline-block');
+    }
+  });
+</script>
